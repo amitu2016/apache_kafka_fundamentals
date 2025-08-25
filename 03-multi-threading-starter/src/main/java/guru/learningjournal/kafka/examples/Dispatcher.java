@@ -8,15 +8,15 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.Scanner;
 
-public class Dispacher implements Runnable {
+public class Dispatcher implements Runnable {
 
-    private static final Logger logger = LogManager.getLogger(Dispacher.class);
+    private static final Logger logger = LogManager.getLogger(Dispatcher.class);
 
-    private String fileLocation;
+    private final String fileLocation;
     private final String topicName;
-    private KafkaProducer<String, String> producer;
+    private final KafkaProducer<Integer, String> producer;
 
-    public Dispacher(KafkaProducer<String, String> producer, String topicName, String fileLocation) {
+    public Dispatcher(KafkaProducer<Integer, String> producer, String topicName, String fileLocation) {
         this.fileLocation = fileLocation;
         this.topicName = topicName;
         this.producer = producer;
@@ -24,7 +24,7 @@ public class Dispacher implements Runnable {
 
     @Override
     public void run() {
-        logger.info("Start Processing file: " + fileLocation);
+        logger.info("Start Processing file: {}", fileLocation);
         File file = new File(fileLocation);
         Scanner scanner = null;
         int count = 0;
@@ -33,17 +33,17 @@ public class Dispacher implements Runnable {
             scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                producer.send(new ProducerRecord<String, String>(topicName, null, line));
+                producer.send(new ProducerRecord<Integer, String>(topicName, null, line));
                 count++;
             }
         } catch (Exception e) {
-            logger.error("Error processing file: " + fileLocation, e);
+            logger.error("Error processing file: {}", fileLocation, e);
         } finally {
             if (scanner != null) {
                 scanner.close();
             }
-            producer.close();
+            // Don't close the producer here - let the main thread handle it
         }
-        logger.info("Completed processing file: " + fileLocation + ", total records: " + count);
+        logger.info("Completed processing file: {}, total records: {}", fileLocation, count);
     }
 }
