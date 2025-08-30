@@ -1,0 +1,4 @@
+/Users/amitupadhyay/Developer/Apache_Kafka_Fundamentals/05-json-to-pojo/src/main/java/guru/learningjournal/kafka/examples/types/Invoice.java
+/Users/amitupadhyay/Developer/Apache_Kafka_Fundamentals/05-json-to-pojo/src/main/java/guru/learningjournal/kafka/examples/types/DeliveryAddress.java
+/Users/amitupadhyay/Developer/Apache_Kafka_Fundamentals/05-json-to-pojo/src/main/java/guru/learningjournal/kafka/examples/types/LineItem.java
+/Users/amitupadhyay/Developer/Apache_Kafka_Fundamentals/05-json-to-pojo/src/main/java/guru/learningjournal/kafka/examples/types/PosInvoice.java
